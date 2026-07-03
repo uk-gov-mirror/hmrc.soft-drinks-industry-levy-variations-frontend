@@ -147,7 +147,7 @@ trait Formatters {
         baseFormatter
           .bind(key, data)
           .map(_.replace(",", ""))
-          .map(_.replace(" ", ""))
+          .map(stripLitresSuffixes)
           .flatMap {
             case s if s.matches(numberRegexp) =>
               nonFatalCatch
@@ -176,6 +176,11 @@ trait Formatters {
       override def unbind(key: String, value: Long) =
         baseFormatter.unbind(key, value.toString)
     }
+
+  private val litresSuffixRegex = """(?i)\s*(litres|l)\s*$""".r
+
+  private def stripLitresSuffixes(input: String): String =
+    litresSuffixRegex.replaceFirstIn(input.trim, "").trim
 
   def sdilReferenceFormatter(requiredKey: String, args: Seq[String]): Formatter[String] =
     new Formatter[String] {
