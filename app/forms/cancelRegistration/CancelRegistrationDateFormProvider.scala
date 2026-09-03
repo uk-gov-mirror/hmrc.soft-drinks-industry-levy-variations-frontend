@@ -41,7 +41,10 @@ class CancelRegistrationDateFormProvider @Inject() (config: FrontendAppConfig) e
         invalidYearLength = "cancelRegistrationDate.error.year.length"
       ).verifying(
         minDate(LocalDate.now(), "cancelRegistrationDate.error.registration-date.min"),
-        maxDate(config.cancelRegistrationDateMaxDaysInFuture, "cancelRegistrationDate.error.registration-date.max")
+        maxDate(
+          LocalDate.now().plusDays(config.cancelRegistrationDateMaxDaysInFuture),
+          "cancelRegistrationDate.error.registration-date.max"
+        )
       )
     )
 }

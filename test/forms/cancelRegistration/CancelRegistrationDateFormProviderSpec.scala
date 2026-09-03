@@ -31,7 +31,7 @@ class CancelRegistrationDateFormProviderSpec extends DateBehaviours with SpecBas
 
     val validData = datesBetween(
       min = LocalDate.now(),
-      max = appConfig.cancelRegistrationDateMaxDaysInFuture
+      max = LocalDate.now().plusDays(appConfig.cancelRegistrationDateMaxDaysInFuture)
     )
 
     behave like dateField(form, "cancelRegistrationDate", validData)
