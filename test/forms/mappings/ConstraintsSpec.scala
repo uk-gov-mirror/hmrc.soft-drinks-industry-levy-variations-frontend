@@ -149,6 +149,15 @@ class ConstraintsSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyC
         result mustEqual Invalid("error.future", "foo")
       }
     }
+
+    "must evaluate the maximum when the constraint is applied" in {
+      var max = LocalDate.of(2026, 1, 1)
+      val constraint = maxDate(max, "error.future")
+
+      max = LocalDate.of(2026, 1, 2)
+
+      constraint(LocalDate.of(2026, 1, 2)) mustEqual Valid
+    }
   }
 
   "minDate" - {
@@ -177,6 +186,15 @@ class ConstraintsSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyC
         val result = minDate(min, "error.past", "foo")(date)
         result mustEqual Invalid("error.past", "foo")
       }
+    }
+
+    "must evaluate the minimum when the constraint is applied" in {
+      var min = LocalDate.of(2026, 1, 2)
+      val constraint = minDate(min, "error.past")
+
+      min = LocalDate.of(2026, 1, 1)
+
+      constraint(LocalDate.of(2026, 1, 1)) mustEqual Valid
     }
   }
 }

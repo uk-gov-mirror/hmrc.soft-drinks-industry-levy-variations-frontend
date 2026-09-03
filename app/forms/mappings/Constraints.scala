@@ -82,7 +82,7 @@ trait Constraints {
         Invalid(errorKey, maximum)
     }
 
-  protected def maxDate(maximum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
+  protected def maxDate(maximum: => LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
     Constraint {
       case date if date.isAfter(maximum) =>
         Invalid(errorKey, args*)
@@ -90,7 +90,7 @@ trait Constraints {
         Valid
     }
 
-  protected def minDate(minimum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
+  protected def minDate(minimum: => LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =
     Constraint {
       case date if date.isBefore(minimum) =>
         Invalid(errorKey, args*)
